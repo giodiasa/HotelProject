@@ -14,5 +14,6 @@ namespace HotelProject.Models
         public string Country { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
         public string PhysicalAddress { get; set; } = string.Empty;
+        public int ManagerId {  get; set; }
     }
 }

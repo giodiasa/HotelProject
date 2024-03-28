@@ -16,13 +16,13 @@ namespace HotelProject.tests
             _hotelRepository = new();
         }
         [Fact]
-        public void Return_All_Hotels_From_Database()
+        public async void Return_All_Hotels_From_Database()
         {
-            var result = _hotelRepository.GetHotels();
+            var result = await _hotelRepository.GetHotels();
         }
 
         [Fact]
-        public void Add_New_Hotel_In_Database()
+        public async void Add_New_Hotel_In_Database()
         {
             Hotel newHotel = new()
             {
@@ -30,34 +30,36 @@ namespace HotelProject.tests
                 Rating = 8.7,
                 Country = "Georgia",
                 City = "Tbilisi",
-                PhysicalAddress = "1 Rose Revolution Square"
+                PhysicalAddress = "1 Rose Revolution Square",
+                ManagerId = 4
             };
 
-            _hotelRepository.AddHotel(newHotel);
+            await _hotelRepository.AddHotel(newHotel);
         }
 
         [Fact]
-        public void Update_Hotel_In_Database()
+        public async void Update_Hotel_In_Database()
         {
             Hotel updatedHotel = new()
             {
-                Id = 4,
+                Id = 11,
                 Name = "Stamba",
                 Rating = 8.9,
                 Country = "Georgia",
                 City = "Tbilisi",
-                PhysicalAddress = "14, 0108 Merab Kostava St"
+                PhysicalAddress = "14, 0108 Merab Kostava St",
+                ManagerId = 12
             };
 
-            _hotelRepository.UpdateHotel(updatedHotel);
+            await _hotelRepository.UpdateHotel(updatedHotel);
         }
 
         [Fact]
-        public void Delete_Hotel_from_Database()
+        public async void Delete_Hotel_from_Database()
         {
-            int id = 2;
+            int id = 11;
 
-            _hotelRepository.DeleteHotel(id);
+            await _hotelRepository.DeleteHotel(id);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HotelProject.Data;
 using HotelProject.Models;
 using Microsoft.Data.SqlClient;
+using System.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,19 @@ namespace HotelProject.Repository
 {
     public class HotelRepository
     {
-        public List<Hotel> GetHotels()
+        public async Task<List<Hotel>> GetHotels()
         {
             List<Hotel> result = new();
-            const string sqlExpression = "SELECT*FROM Hotels";
+            const string sqlExpression = "sp_GetAllHotels";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    command.CommandType = CommandType.StoredProcedure;
+                    await connection.OpenAsync();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
                     {
                         if (reader.HasRows)
                         {
@@ -30,12 +32,17 @@ namespace HotelProject.Repository
                             {
                                 Id = reader.GetInt32(0),
                                 Name = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty,
-                                Rating = reader.GetDouble(2),
+                                Rating = !reader.IsDBNull(1) ? reader.GetDouble(2) : 0,
                                 Country = !reader.IsDBNull(3) ? reader.GetString(3) : string.Empty,
                                 City = !reader.IsDBNull(4) ? reader.GetString(4) : string.Empty,
-                                PhysicalAddress = !reader.IsDBNull(5) ? reader.GetString(5) : string.Empty
+                                PhysicalAddress = !reader.IsDBNull(5) ? reader.GetString(5) : string.Empty,
+                                ManagerId = !reader.IsDBNull(6) ? reader.GetInt32(6) : 0
                             });
                         }
+                    }
+                    if (result.Count == 0)
+                    {
+                        throw new InvalidOperationException("No hotels found");
                     }
                 }
                 catch (Exception)
@@ -44,22 +51,29 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
                 return result;
             }
         }
 
-        public void AddHotel(Hotel hotel)
+        public async Task AddHotel(Hotel hotel)
         {
-            string sqlExpression = @$"INSERT INTO Hotels (Name, Rating, Country, City, PhysicalAddress) VALUES (N'{hotel.Name}', {hotel.Rating}, N'{hotel.Country}', N'{hotel.City}', N'{hotel.PhysicalAddress}')";
+            string sqlExpression = @$"sp_AddNewHotel";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    command.ExecuteNonQuery();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("name", hotel.Name);
+                    command.Parameters.AddWithValue("rating", hotel.Rating);
+                    command.Parameters.AddWithValue("country", hotel.Country);
+                    command.Parameters.AddWithValue("city", hotel.City);
+                    command.Parameters.AddWithValue("physicalAddress", hotel.PhysicalAddress);
+                    command.Parameters.AddWithValue("managerId", hotel.ManagerId);
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
                 }
                 catch (Exception)
                 {
@@ -67,20 +81,32 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }
-        public void UpdateHotel(Hotel hotel)
+        public async Task UpdateHotel(Hotel hotel)
         {
-            string sqlExpression = @$"UPDATE Hotels SET Name = N'{hotel.Name}', Rating = {hotel.Rating}, Country = N'{hotel.Country}', City = N'{hotel.City}', PhysicalAddress = N'{hotel.PhysicalAddress}' WHERE Id = {hotel.Id}";
+            string sqlExpression = @$"sp_UpdateHotels";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    command.ExecuteNonQuery();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id", hotel.Id);
+                    command.Parameters.AddWithValue("name", hotel.Name);
+                    command.Parameters.AddWithValue("rating", hotel.Rating);
+                    command.Parameters.AddWithValue("country", hotel.Country);
+                    command.Parameters.AddWithValue("city", hotel.City);
+                    command.Parameters.AddWithValue("physicalAddress", hotel.PhysicalAddress);
+                    command.Parameters.AddWithValue("managerId", hotel.ManagerId);
+                    await connection.OpenAsync();
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    if (rowsAffected == 0)
+                    {
+                        throw new InvalidOperationException("No hotels found with this ID");
+                    }
                 }
                 catch (Exception)
                 {
@@ -88,21 +114,27 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }
 
-        public void DeleteHotel(int id)
+        public async Task DeleteHotel(int id)
         {
-            string sqlExpression = @$"DELETE FROM Hotels WHERE Id = {id}";
+            string sqlExpression = @$"sp_DeleteHotel";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    command.ExecuteNonQuery();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id", id);
+                    await connection.OpenAsync();
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    if (rowsAffected == 0)
+                    {
+                        throw new InvalidOperationException("No hotels found with this ID");
+                    }
                 }
                 catch (Exception)
                 {
@@ -110,7 +142,7 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }

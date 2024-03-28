@@ -1,23 +1,25 @@
 ﻿using HotelProject.Data;
 using HotelProject.Models;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace HotelProject.Repository
 {
     public class ManagerRepository
     {
-        public List<Manager> GetManagers()
+        public async Task <List<Manager>> GetManagers()
         {
             List<Manager> result = new();
-            const string sqlExpression = "SELECT*FROM Managers";
+            const string sqlExpression = "sp_GetAllManagers";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    command.CommandType = CommandType.StoredProcedure;
+                    await connection.OpenAsync();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
                     {
                         if (reader.HasRows)
                         {
@@ -29,6 +31,10 @@ namespace HotelProject.Repository
                             });
                         }
                     }
+                    if (result.Count == 0)
+                    {
+                        throw new InvalidOperationException("No managers found");
+                    }
                 }
                 catch (Exception)
                 {
@@ -36,22 +42,25 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
                 return result;
             }
         }
 
-        public void AddManager(Manager manager)
+        public async Task AddManager(Manager manager)
         {
-            string sqlExpression = @$"INSERT INTO Managers(FirstName,LastName) VALUES (N'{manager.FirstName}',N'{manager.LastName}')";
+            string sqlExpression = @$"sp_AddNewManager";
             using(SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    command.ExecuteNonQuery();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("firstName", manager.FirstName);
+                    command.Parameters.AddWithValue("lastName", manager.LastName);
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
                 }
                 catch (Exception)
                 {
@@ -59,20 +68,28 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }
-        public void UpdateManager(Manager manager)
+        public async Task UpdateManager(Manager manager)
         {
-            string sqlExpression = @$"UPDATE Managers SET FirstName = N'{manager.FirstName}', LastName = N'{manager.LastName}' WHERE Id = {manager.Id}";
+            string sqlExpression = @$"sp_UpdateManager";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    command.ExecuteNonQuery();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id", manager.Id);
+                    command.Parameters.AddWithValue("firstName", manager.FirstName);
+                    command.Parameters.AddWithValue("lastName", manager.LastName);
+                    await connection.OpenAsync();
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    if (rowsAffected == 0)
+                    {
+                        throw new InvalidOperationException("No managers found with this ID");
+                    }
                 }
                 catch (Exception)
                 {
@@ -80,21 +97,27 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }
 
-        public void DeleteManager(int id)
+        public async Task DeleteManager(int id)
         {
-            string sqlExpression = @$"DELETE FROM Managers WHERE Id = {id}";
+            string sqlExpression = @$"sp_DeleteManager";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
                 {
-                    connection.Open();
                     SqlCommand command = new(sqlExpression, connection);
-                    command.ExecuteNonQuery();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id",  id);
+                    await connection.OpenAsync();
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    if (rowsAffected == 0)
+                    {
+                        throw new InvalidOperationException("No managers found with this ID");
+                    }
                 }
                 catch (Exception)
                 {
@@ -102,7 +125,7 @@ namespace HotelProject.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }
