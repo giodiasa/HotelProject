@@ -42,7 +42,7 @@ namespace HotelProject.tests
         {
             Hotel updatedHotel = new()
             {
-                Id = 11,
+                Id = 8,
                 Name = "Stamba",
                 Rating = 8.9,
                 Country = "Georgia",

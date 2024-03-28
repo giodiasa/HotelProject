@@ -87,7 +87,7 @@ namespace HotelProject.Repository
         }
         public async Task UpdateHotel(Hotel hotel)
         {
-            string sqlExpression = @$"sp_UpdateHotels";
+            string sqlExpression = @$"sp_UpdateHotel";
             using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
             {
                 try
