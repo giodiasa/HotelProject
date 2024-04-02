@@ -30,8 +30,7 @@ namespace HotelProject.tests
                 Rating = 8.7,
                 Country = "Georgia",
                 City = "Tbilisi",
-                PhysicalAddress = "1 Rose Revolution Square",
-                ManagerId = 4
+                PhysicalAddress = "1 Rose Revolution Square"
             };
 
             await _hotelRepository.AddHotel(newHotel);
@@ -42,13 +41,12 @@ namespace HotelProject.tests
         {
             Hotel updatedHotel = new()
             {
-                Id = 8,
-                Name = "Stamba",
-                Rating = 8.9,
+                Id = 13,
+                Name = "Rooms Kokhta",
+                Rating = 9.5,
                 Country = "Georgia",
-                City = "Tbilisi",
-                PhysicalAddress = "14, 0108 Merab Kostava St",
-                ManagerId = 12
+                City = "Bakuriani",
+                PhysicalAddress = "Kokhta",
             };
 
             await _hotelRepository.UpdateHotel(updatedHotel);
@@ -57,7 +55,7 @@ namespace HotelProject.tests
         [Fact]
         public async void Delete_Hotel_from_Database()
         {
-            int id = 11;
+            int id = 14;
 
             await _hotelRepository.DeleteHotel(id);
         }

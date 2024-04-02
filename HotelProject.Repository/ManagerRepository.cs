@@ -28,6 +28,7 @@ namespace HotelProject.Repository
                                 Id = reader.GetInt32(0),
                                 FirstName = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty,
                                 LastName = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty,
+                                HotelId = !reader.IsDBNull(3) ? reader.GetInt32(3) : 0
                             });
                         }
                     }
@@ -59,6 +60,7 @@ namespace HotelProject.Repository
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("firstName", manager.FirstName);
                     command.Parameters.AddWithValue("lastName", manager.LastName);
+                    command.Parameters.AddWithValue("hotelId", manager.HotelId);
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
                 }
@@ -84,6 +86,7 @@ namespace HotelProject.Repository
                     command.Parameters.AddWithValue("id", manager.Id);
                     command.Parameters.AddWithValue("firstName", manager.FirstName);
                     command.Parameters.AddWithValue("lastName", manager.LastName);
+                    command.Parameters.AddWithValue("hotelId", manager.HotelId);
                     await connection.OpenAsync();
                     int rowsAffected = await command.ExecuteNonQueryAsync();
                     if (rowsAffected == 0)
