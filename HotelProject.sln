@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelProject.Data", "HotelProject.Data\HotelProject.Data.csproj", "{7D52CD22-8E0D-4B39-8A35-DB09DB450A0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelProject.Data", "HotelProject.Data\HotelProject.Data.csproj", "{7D52CD22-8E0D-4B39-8A35-DB09DB450A0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelProject.Models", "HotelProject.Models\HotelProject.Models.csproj", "{CDC42283-52E1-4C1A-87F3-76E6D77AB990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelProject.Models", "HotelProject.Models\HotelProject.Models.csproj", "{CDC42283-52E1-4C1A-87F3-76E6D77AB990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelProject.Repository", "HotelProject.Repository\HotelProject.Repository.csproj", "{10446B9D-ABF6-4FC7-86EB-E01E53A8298E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelProject.Repository", "HotelProject.Repository\HotelProject.Repository.csproj", "{10446B9D-ABF6-4FC7-86EB-E01E53A8298E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelProject.tests", "HotelProject.tests\HotelProject.tests.csproj", "{29E18796-09F6-4771-927E-19EEFB2E6C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelProject.tests", "HotelProject.tests\HotelProject.tests.csproj", "{29E18796-09F6-4771-927E-19EEFB2E6C8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelProject.Web", "HotelProject.Web\HotelProject.Web.csproj", "{C37302C9-7775-4087-8CF8-1F681BEC7971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{29E18796-09F6-4771-927E-19EEFB2E6C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29E18796-09F6-4771-927E-19EEFB2E6C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29E18796-09F6-4771-927E-19EEFB2E6C8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C37302C9-7775-4087-8CF8-1F681BEC7971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C37302C9-7775-4087-8CF8-1F681BEC7971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C37302C9-7775-4087-8CF8-1F681BEC7971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C37302C9-7775-4087-8CF8-1F681BEC7971}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
