@@ -1,0 +1,22 @@
+﻿@model Manager
+@{
+    ViewData["Title"] = "ახალი მენეჯერის დამატება";
+}
+<form asp-controller="Managers" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="FirstName">სახელი</label>
+        <input class="form-control" asp-for="FirstName" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName">გვარი</label>
+        <input class="form-control" asp-for="LastName" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="HotelId">სასტუმრო</label>
+        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.HotelsWithoutManager, "-- Select Hotel --", new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <input type="submit" class="btn btn-success" value="დამატება" />
+        <a class="btn btn-primary btn" asp-controller="Managers" asp-action="Index">გაუქმება</a>
+    </div>
+</form>

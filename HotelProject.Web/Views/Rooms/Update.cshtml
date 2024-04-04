@@ -1,0 +1,28 @@
+﻿@model Room
+@{
+    ViewData["Title"] = "ნომრის განახლება";
+}
+<form asp-controller="Rooms" asp-action="UpdatePOST" method="post">
+    <input hidden asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="Name">სახელი</label>
+        <input class="form-control" asp-for="Name" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="IsFree">სტატუსი</label>
+        <input class="form-control" asp-for="IsFree" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="HotelId">სასტუმრო</label>
+        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.Hotels, "-- Select Hotel --", new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label asp-for="DailyPrice">ფასი</label>
+        <input class="form-control" asp-for="DailyPrice" />
+    </div>
+    <div class="mb-3">
+        <input type="submit" class="btn btn-warning" value="განახლება" />
+        <a class="btn btn-primary btn" asp-controller="Rooms" asp-action="Index">გაუქმება</a>
+    </div>
+</form>
+

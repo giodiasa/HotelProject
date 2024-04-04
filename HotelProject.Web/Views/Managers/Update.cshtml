@@ -1,0 +1,24 @@
+﻿@model Manager
+@{
+    ViewData["Title"] = "მენეჯერის განახლება";
+}
+<form asp-controller="Managers" asp-action="UpdatePOST" method="post">
+    <input hidden asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="FirstName">სახელი</label>
+        <input class="form-control" asp-for="FirstName" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName">გვარი</label>
+        <input class="form-control" asp-for="LastName" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="HotelId">სასტუმრო</label>
+        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.HotelsWithoutManager, "-- Select Hotel --", new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <input type="submit" class="btn btn-warning" value="განახლება" />
+        <a class="btn btn-primary btn" asp-controller="Managers" asp-action="Index">გაუქმება</a>
+    </div>
+</form>
+
