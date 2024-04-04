@@ -57,13 +57,15 @@ namespace HotelProject.Web.Controllers
 
         public async Task<IActionResult> Update(int id)
         {
+            var result = await _managerRepository.GetSingleManager(id);
             var hotelsWithoutManager = await _hotelRepository.GetHotelsWithoutManager();
+            var currentHotel = await _hotelRepository.GetSingleHotel(result.HotelId);
+            hotelsWithoutManager.Add(currentHotel);
             ViewBag.HotelsWithoutManager = hotelsWithoutManager.Select(h => new SelectListItem
             {
                 Value = h.Id.ToString(),
                 Text = h.Name
             }).ToList();
-            var result = await _managerRepository.GetSingleManager(id);
             return View(result);
         }
 

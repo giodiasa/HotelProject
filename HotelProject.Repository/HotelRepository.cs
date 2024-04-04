@@ -35,7 +35,7 @@ namespace HotelProject.Repository
                                 Rating = !reader.IsDBNull(1) ? reader.GetDouble(2) : 0,
                                 Country = !reader.IsDBNull(3) ? reader.GetString(3) : string.Empty,
                                 City = !reader.IsDBNull(4) ? reader.GetString(4) : string.Empty,
-                                PhysicalAddress = !reader.IsDBNull(5) ? reader.GetString(5) : string.Empty,
+                                PhysicalAddress = !reader.IsDBNull(5) ? reader.GetString(5) : string.Empty
                             });
                         }
                     }
@@ -117,7 +117,11 @@ namespace HotelProject.Repository
                             result.Add(new Hotel()
                             {
                                 Id = reader.GetInt32(0),
-                                Name = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty
+                                Name = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty,
+                                Rating = !reader.IsDBNull(1) ? reader.GetDouble(2) : 0,
+                                Country = !reader.IsDBNull(3) ? reader.GetString(3) : string.Empty,
+                                City = !reader.IsDBNull(4) ? reader.GetString(4) : string.Empty,
+                                PhysicalAddress = !reader.IsDBNull(5) ? reader.GetString(5) : string.Empty
                             });
                         }
                     }
