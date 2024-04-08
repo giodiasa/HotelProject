@@ -2,18 +2,22 @@
 @{
     ViewData["Title"] = "ახალი მენეჯერის დამატება";
 }
+<h2 class="mb-4">ახალი მენეჯერის დამატება</h2>
 <form asp-controller="Managers" asp-action="Create" method="post">
     <div class="mb-3">
         <label asp-for="FirstName">სახელი</label>
         <input class="form-control" asp-for="FirstName" />
+        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="LastName">გვარი</label>
         <input class="form-control" asp-for="LastName" />
+        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="HotelId">სასტუმრო</label>
-        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.HotelsWithoutManager, "-- Select Hotel --", new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.HotelsWithoutManager, "-- არჩევა --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.HotelId, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-success" value="დამატება" />

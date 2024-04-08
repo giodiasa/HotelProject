@@ -2,19 +2,23 @@
 @{
     ViewData["Title"] = "მენეჯერის განახლება";
 }
-<form asp-controller="Managers" asp-action="UpdatePOST" method="post">
+<h2 class="mb-4">მენეჯერის განახლება</h2>
+<form asp-controller="Managers" asp-action="Update" method="post">
     <input hidden asp-for="Id" />
     <div class="mb-3">
         <label asp-for="FirstName">სახელი</label>
         <input class="form-control" asp-for="FirstName" />
+        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="LastName">გვარი</label>
         <input class="form-control" asp-for="LastName" />
+        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="HotelId">სასტუმრო</label>
-        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.HotelsWithoutManager, "-- Select Hotel --", new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.HotelsWithoutManager, "-- არჩევა --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.HotelId, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-warning" value="განახლება" />

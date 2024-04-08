@@ -2,23 +2,32 @@
 @{
     ViewData["Title"] = "ნომრის განახლება";
 }
-<form asp-controller="Rooms" asp-action="UpdatePOST" method="post">
+<h2 class="mb-4">ნომრის განახლება</h2>
+<form asp-controller="Rooms" asp-action="Update" method="post">
     <input hidden asp-for="Id" />
     <div class="mb-3">
         <label asp-for="Name">სახელი</label>
         <input class="form-control" asp-for="Name" />
+        @Html.ValidationMessageFor(r => r.Name, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="IsFree">სტატუსი</label>
-        <input class="form-control" asp-for="IsFree" />
+        @Html.DropDownListFor(model => model.IsFree, new List<SelectListItem>()
+        {
+        new SelectListItem() { Text = "თავისუფალი", Value = "True" },
+        new SelectListItem() { Text = "დაკავებული", Value = "False"}
+        }, "-- არჩევა --", new { @id = "isFree", @class = "form-control" })
+        @Html.ValidationMessageFor(r => r.IsFree, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="HotelId">სასტუმრო</label>
-        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.Hotels, "-- Select Hotel --", new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.HotelId, (IEnumerable<SelectListItem>)ViewBag.Hotels, "-- არჩევა --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(r => r.HotelId, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="DailyPrice">ფასი</label>
         <input class="form-control" asp-for="DailyPrice" />
+        @Html.ValidationMessageFor(r => r.DailyPrice, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-warning" value="განახლება" />

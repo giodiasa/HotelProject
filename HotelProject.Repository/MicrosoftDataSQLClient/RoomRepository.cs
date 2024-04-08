@@ -1,5 +1,6 @@
 ﻿using HotelProject.Data;
 using HotelProject.Models;
+using HotelProject.Repository.Interfaces;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelProject.Repository
+namespace HotelProject.Repository.MicrosoftDataSQLClient
 {
-    public class RoomRepository
+    public class RoomRepository : IRoomRepository
     {
         public async Task<List<Room>> GetRooms()
         {
             List<Room> result = new();
             const string sqlExpression = "sp_GetAllRooms";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -54,13 +55,12 @@ namespace HotelProject.Repository
                 return result;
             }
         }
-
         public async Task<Room> GetSingleRoom(int id)
         {
             Room result = new();
             const string sqlExpression = "sp_GetSingleRoom";
 
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -100,7 +100,7 @@ namespace HotelProject.Repository
         public async Task AddRoom(Room room)
         {
             string sqlExpression = @$"sp_AddNewRoom";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -126,7 +126,7 @@ namespace HotelProject.Repository
         public async Task UpdateRoom(Room room)
         {
             string sqlExpression = @$"sp_UpdateRoom";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -154,11 +154,10 @@ namespace HotelProject.Repository
                 }
             }
         }
-
         public async Task DeleteRoom(int id)
         {
             string sqlExpression = @$"sp_DeleteRoom";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {

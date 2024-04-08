@@ -1,5 +1,6 @@
 ﻿using HotelProject.Models;
-using HotelProject.Repository;
+using HotelProject.Repository.Interfaces;
+using HotelProject.Repository.MicrosoftDataSQLClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,9 +8,9 @@ namespace HotelProject.Web.Controllers
 {
     public class RoomsController : Controller
     {
-        private readonly RoomRepository _roomRepository;
-        private readonly HotelRepository _hotelRepository;
-        public RoomsController(RoomRepository roomRepository, HotelRepository hotelRepository)
+        private readonly IRoomRepository _roomRepository;
+        private readonly IHotelRepository _hotelRepository;
+        public RoomsController(IRoomRepository roomRepository, IHotelRepository hotelRepository)
         {
             _roomRepository = roomRepository;
             _hotelRepository = hotelRepository;
@@ -36,8 +37,18 @@ namespace HotelProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Room room)
         {
-            await _roomRepository.AddRoom(room);
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                await _roomRepository.AddRoom(room);
+                return RedirectToAction("Index");
+            }
+            var hotels = await _hotelRepository.GetHotels();
+            ViewBag.Hotels = hotels.Select(h => new SelectListItem
+            {
+                Value = h.Id.ToString(),
+                Text = h.Name
+            }).ToList();
+            return View(room);
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -68,10 +79,20 @@ namespace HotelProject.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdatePOST(Room model)
+        public async Task<IActionResult> Update(Room model)
         {
-            await _roomRepository.UpdateRoom(model);
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                await _roomRepository.UpdateRoom(model);
+                return RedirectToAction("Index");
+            }
+            var hotels = await _hotelRepository.GetHotels();
+            ViewBag.Hotels = hotels.Select(h => new SelectListItem
+            {
+                Value = h.Id.ToString(),
+                Text = h.Name
+            }).ToList();
+            return View(model);
         }
     }
 }

@@ -2,26 +2,32 @@
 @{
     ViewData["Title"] = "ახალი სასტუმროს დამატება";
 }
+<h2 class="mb-4">ახალი სასტუმროს დამატება</h2>
 <form asp-controller="Hotels" asp-action="Create" method="post">
     <div class="mb-3">
         <label asp-for="Name">დასახელება</label>
         <input class="form-control" asp-for="Name" />
+        @Html.ValidationMessageFor(h => h.Name, "", new {@class="text-danger"})
     </div>
     <div class="mb-3">
         <label asp-for="Rating">რეიტინგი</label>
         <input class="form-control" asp-for="Rating" />
+        @Html.ValidationMessageFor(h => h.Rating, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="Country">ქვეყანა</label>
         <input class="form-control" asp-for="Country" />
+        @Html.ValidationMessageFor(h => h.Country, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="City">ქალაქი</label>
         <input class="form-control" asp-for="City" />
+        @Html.ValidationMessageFor(h => h.City, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <label asp-for="PhysicalAddress">მისამართი</label>
         <input class="form-control" asp-for="PhysicalAddress" />
+        @Html.ValidationMessageFor(h => h.PhysicalAddress, "", new { @class = "text-danger" })
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-success" value="დამატება" />

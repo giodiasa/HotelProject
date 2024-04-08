@@ -1,5 +1,6 @@
 ﻿using HotelProject.Models;
-using HotelProject.Repository;
+using HotelProject.Repository.Interfaces;
+using HotelProject.Repository.MicrosoftDataSQLClient;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -7,8 +8,8 @@ namespace HotelProject.Web.Controllers
 {
     public class HotelsController : Controller
     {
-        private readonly HotelRepository _hotelRepository;
-        public HotelsController(HotelRepository hotelRepository)
+        private readonly IHotelRepository _hotelRepository;
+        public HotelsController(IHotelRepository hotelRepository)
         {
             _hotelRepository = hotelRepository;
         }
@@ -25,8 +26,12 @@ namespace HotelProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Hotel model)
         {
-            await _hotelRepository.AddHotel(model);
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                await _hotelRepository.AddHotel(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
 
@@ -52,10 +57,14 @@ namespace HotelProject.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdatePOST(Hotel model)
+        public async Task<IActionResult> Update(Hotel model)
         {
-            await _hotelRepository.UpdateHotel(model);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                await _hotelRepository.UpdateHotel(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }

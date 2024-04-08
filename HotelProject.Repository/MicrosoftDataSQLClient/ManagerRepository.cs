@@ -1,17 +1,18 @@
 ﻿using HotelProject.Data;
 using HotelProject.Models;
+using HotelProject.Repository.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace HotelProject.Repository
+namespace HotelProject.Repository.MicrosoftDataSQLClient
 {
-    public class ManagerRepository
+    public class ManagerRepository : IManagerRepository
     {
-        public async Task <List<Manager>> GetManagers()
+        public async Task<List<Manager>> GetManagers()
         {
             List<Manager> result = new();
             const string sqlExpression = "sp_GetAllManagers";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -48,13 +49,12 @@ namespace HotelProject.Repository
                 return result;
             }
         }
-
         public async Task<Manager> GetSingleManager(int id)
         {
             Manager result = new();
             const string sqlExpression = "sp_GetSingleManager";
 
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -91,7 +91,7 @@ namespace HotelProject.Repository
         public async Task AddManager(Manager manager)
         {
             string sqlExpression = @$"sp_AddNewManager";
-            using(SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -116,7 +116,7 @@ namespace HotelProject.Repository
         public async Task UpdateManager(Manager manager)
         {
             string sqlExpression = @$"sp_UpdateManager";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -143,17 +143,16 @@ namespace HotelProject.Repository
                 }
             }
         }
-
         public async Task DeleteManager(int id)
         {
             string sqlExpression = @$"sp_DeleteManager";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("id",  id);
+                    command.Parameters.AddWithValue("id", id);
                     await connection.OpenAsync();
                     int rowsAffected = await command.ExecuteNonQueryAsync();
                     if (rowsAffected == 0)

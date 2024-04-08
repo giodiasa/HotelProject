@@ -7,16 +7,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HotelProject.Repository.Interfaces;
 
-namespace HotelProject.Repository
+namespace HotelProject.Repository.MicrosoftDataSQLClient
 {
-    public class HotelRepository
+    public class HotelRepository : IHotelRepository
     {
         public async Task<List<Hotel>> GetHotels()
         {
             List<Hotel> result = new();
             const string sqlExpression = "sp_GetAllHotels";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -60,7 +61,7 @@ namespace HotelProject.Repository
             Hotel result = new();
             const string sqlExpression = "sp_GetSingleHotel";
 
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -102,7 +103,7 @@ namespace HotelProject.Repository
         {
             List<Hotel> result = new();
             const string sqlExpression = "sp_GetHotelsWithoutManager";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -145,7 +146,7 @@ namespace HotelProject.Repository
         public async Task AddHotel(Hotel hotel)
         {
             string sqlExpression = @$"sp_AddNewHotel";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -172,7 +173,7 @@ namespace HotelProject.Repository
         public async Task UpdateHotel(Hotel hotel)
         {
             string sqlExpression = @$"sp_UpdateHotel";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
@@ -201,11 +202,10 @@ namespace HotelProject.Repository
                 }
             }
         }
-
         public async Task DeleteHotel(int id)
         {
             string sqlExpression = @$"sp_DeleteHotel";
-            using (SqlConnection connection = new(ApplicationDBContext.ConnectionString))
+            using (SqlConnection connection = new(ApplicationDbContext.ConnectionString))
             {
                 try
                 {
