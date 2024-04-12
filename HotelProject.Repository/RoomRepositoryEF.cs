@@ -1,5 +1,7 @@
-﻿using HotelProject.Models;
+﻿using HotelProject.Data;
+using HotelProject.Models;
 using HotelProject.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +12,84 @@ namespace HotelProject.Repository
 {
     public class RoomRepositoryEF : IRoomRepository
     {
-        public Task AddRoom(Room room)
+        private readonly ApplicationDbContext _context;
+
+        public RoomRepositoryEF(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task AddRoom(Room room)
+        {
+            if(room == null)
+            {
+                throw new ArgumentNullException("Invalid argument passed");
+            }
+            await _context.Rooms.AddAsync(room);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteRoom(int id)
+        public async Task DeleteRoom(int id)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+            {
+                throw new ArgumentNullException("Invalid argument passed");
+            }
+            var entity = await _context.Rooms.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (entity == null)
+            {
+                throw new NullReferenceException("Entity not found");
+            }
+
+            _context.Rooms.Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<List<Room>> GetRooms()
+        public async Task<List<Room>> GetRooms()
         {
-            throw new NotImplementedException();
+            var entities = await _context.Rooms.ToListAsync();
+
+            if (entities == null)
+            {
+                throw new NullReferenceException("Entities not found");
+            }
+
+            return entities;
         }
 
-        public Task<Room> GetSingleRoom(int id)
+        public async Task<Room> GetSingleRoom(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Rooms.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (entity == null)
+            {
+                throw new NullReferenceException("Entity not found");
+            }
+
+            return entity;
         }
 
-        public Task UpdateRoom(Room room)
+        public async Task UpdateRoom(Room room)
         {
-            throw new NotImplementedException();
+            if (room == null || room.Id <= 0)
+            {
+                throw new ArgumentNullException("Invalid argument passed");
+            }
+
+            var entity = await _context.Rooms.FirstOrDefaultAsync(x => x.Id == room.Id);
+
+            if (entity == null)
+            {
+                throw new NullReferenceException("Entity not found");
+            }
+
+            entity.Name = room.Name;
+            entity.DailyPrice = room.DailyPrice;
+            entity.IsFree = room.IsFree;
+            entity.HotelId = room.HotelId;
+
+            _context.Rooms.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }
