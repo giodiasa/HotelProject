@@ -1,0 +1,23 @@
+﻿@model Reservation
+@{
+    ViewData["Title"] = "ჯავშნის განახლება";
+}
+<h2 class="mb-4">ჯავშნის განახლება</h2>
+<form asp-controller="Reservations" asp-action="Update" method="post">
+    <input hidden asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="CheckInDate">Check In</label>
+        <input class="form-control" asp-for="CheckInDate" />
+        @Html.ValidationMessageFor(r => r.CheckInDate, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <label asp-for="CheckOutDate">Check Out</label>
+        <input class="form-control" asp-for="CheckOutDate" />
+        @Html.ValidationMessageFor(r => r.CheckOutDate, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <input type="submit" class="btn btn-warning" value="განახლება" />
+        <a class="btn btn-primary btn" asp-controller="Reservations" asp-action="Index">გაუქმება</a>
+    </div>
+</form>
+

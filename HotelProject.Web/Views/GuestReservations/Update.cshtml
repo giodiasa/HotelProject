@@ -1,0 +1,23 @@
+﻿@model GuestReservation
+@{
+    ViewData["Title"] = "ჯავშნის განახლება";
+}
+<h2 class="mb-4">სტუმრის ჯავშნის განახლება</h2>
+<form asp-controller="GuestReservations" asp-action="Update" method="post">
+    <input hidden asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="GuestId">პირადი ნომერი</label>
+        @Html.DropDownListFor(model => model.GuestId, (IEnumerable<SelectListItem>)ViewBag.Guests, "-- არჩევა --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(gr => gr.GuestId, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <label asp-for="ReservationId">ჯავშნის ID</label>
+        @Html.DropDownListFor(model => model.ReservationId, (IEnumerable<SelectListItem>)ViewBag.Reservations, "-- არჩევა --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(gr => gr.ReservationId, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <input type="submit" class="btn btn-warning" value="განახლება" />
+        <a class="btn btn-primary btn" asp-controller="GuestReservations" asp-action="Index">გაუქმება</a>
+    </div>
+</form>
+

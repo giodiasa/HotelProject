@@ -1,0 +1,33 @@
+﻿@model Guest
+@{
+    ViewData["Title"] = "ახალი სტუმრის დამატება";
+}
+<h2 class="mb-4">ახალი სტუმრის დამატება</h2>
+<form asp-controller="Guests" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="FirstName">სახელი</label>
+        <input class="form-control" asp-for="FirstName" />
+        @Html.ValidationMessageFor(g => g.FirstName, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName">გვარი</label>
+        <input class="form-control" asp-for="LastName" />
+        @Html.ValidationMessageFor(g => g.LastName, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <label asp-for="PersonalNumber">პირადი ნომერი</label>
+        <input class="form-control" asp-for="PersonalNumber" />
+        @Html.ValidationMessageFor(g => g.PersonalNumber, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <label asp-for="PhoneNumber">ტელეფონის ნომერი</label>
+        <input class="form-control" asp-for="PhoneNumber" />
+        @Html.ValidationMessageFor(g => g.PhoneNumber, "", new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <input type="submit" class="btn btn-success" value="დამატება" />
+        <a class="btn btn-primary btn" asp-controller="Guests" asp-action="Index">გაუქმება</a>
+    </div>
+</form>
+
+

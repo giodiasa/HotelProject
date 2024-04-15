@@ -4,6 +4,7 @@ using HotelProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240415083434_guestsAndReservations")]
+    partial class GuestsAndReservations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,11 +266,11 @@ namespace HotelProject.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("CheckInDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CheckInDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("CheckOutDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CheckOutDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -277,20 +280,20 @@ namespace HotelProject.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CheckInDate = new DateOnly(2024, 4, 15),
-                            CheckOutDate = new DateOnly(2024, 4, 25)
+                            CheckInDate = new DateTime(2024, 4, 15, 12, 34, 33, 773, DateTimeKind.Local).AddTicks(8088),
+                            CheckOutDate = new DateTime(2024, 4, 25, 12, 34, 33, 773, DateTimeKind.Local).AddTicks(8102)
                         },
                         new
                         {
                             Id = 2,
-                            CheckInDate = new DateOnly(2024, 4, 15),
-                            CheckOutDate = new DateOnly(2024, 5, 15)
+                            CheckInDate = new DateTime(2024, 4, 15, 12, 34, 33, 773, DateTimeKind.Local).AddTicks(8110),
+                            CheckOutDate = new DateTime(2024, 5, 15, 12, 34, 33, 773, DateTimeKind.Local).AddTicks(8111)
                         },
                         new
                         {
                             Id = 3,
-                            CheckInDate = new DateOnly(2024, 4, 15),
-                            CheckOutDate = new DateOnly(2024, 5, 5)
+                            CheckInDate = new DateTime(2024, 4, 15, 12, 34, 33, 773, DateTimeKind.Local).AddTicks(8136),
+                            CheckOutDate = new DateTime(2024, 5, 5, 12, 34, 33, 773, DateTimeKind.Local).AddTicks(8137)
                         });
                 });
 
