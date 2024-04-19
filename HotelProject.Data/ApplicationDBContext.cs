@@ -135,20 +135,20 @@ namespace HotelProject.Data
                 new Reservation()
                 {
                     Id = 1,
-                    CheckInDate = DateOnly.FromDateTime(DateTime.Now),
-                    CheckOutDate = DateOnly.FromDateTime(DateTime.Now).AddDays(10)
+                    CheckInDate = DateTime.Now,
+                    CheckOutDate = DateTime.Now.AddDays(10)
                 },
                 new Reservation()
                 {
                     Id = 2,
-                    CheckInDate = DateOnly.FromDateTime(DateTime.Now),
-                    CheckOutDate = DateOnly.FromDateTime(DateTime.Now).AddMonths(1)
+                    CheckInDate = DateTime.Now,
+                    CheckOutDate = DateTime.Now.AddMonths(1)
                 },
                 new Reservation()
                 {
                     Id = 3,
-                    CheckInDate = DateOnly.FromDateTime(DateTime.Now),
-                    CheckOutDate = DateOnly.FromDateTime(DateTime.Now).AddDays(20)
+                    CheckInDate = DateTime.Now,
+                    CheckOutDate = DateTime.Now.AddDays(20)
                 }
             );
 

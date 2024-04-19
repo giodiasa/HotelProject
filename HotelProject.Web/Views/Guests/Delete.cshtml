@@ -1,21 +1,14 @@
-﻿@model Guest
-@{
-    ViewData["Title"] = "სტუმრის წაშლა";
-}
+﻿@model GuestReservation
 <h2 class="mb-4">სტუმრის წაშლა</h2>
 <form asp-controller="Guests" asp-action="DeletePOST" method="post">
     <input hidden asp-for="Id" />
+    <input hidden asp-for="GuestId" />
+    <input hidden asp-for="ReservationId" />
     <div class="mb-3">
-        <input class="form-control" asp-for="FirstName" disabled />
+        <label class="form-label">@Model.Guest.FirstName @Model.Guest.LastName</label>
     </div>
     <div class="mb-3">
-        <input class="form-control" asp-for="LastName" disabled />
-    </div>
-    <div class="mb-3">
-        <input class="form-control" asp-for="PersonalNumber" disabled />
-    </div>
-    <div class="mb-3">
-        <input class="form-control" asp-for="PhoneNumber" disabled />
+        <label class="form-label">Check in/out: @Model.Reservation.CheckInDate - @Model.Reservation.CheckOutDate</label>
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-danger" value="წაშლა" />
