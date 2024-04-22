@@ -9,32 +9,32 @@ namespace HotelProject.Web
         public MappingProfile()
         {
             CreateMap<GuestReservation, GuestReservationDTO>()
-                .ForMember(dest => dest.Id, options => options.MapFrom(src => src.Id))
-                .ForMember(dest => dest.GuestId, options => options.MapFrom(src => src.GuestId))
                 .ForMember(dest => dest.FirstName, options => options.MapFrom(src => src.Guest.FirstName))
                 .ForMember(dest => dest.LastName, options => options.MapFrom(src => src.Guest.LastName))
                 .ForMember(dest => dest.PersonalNumber, options => options.MapFrom(src => src.Guest.PersonalNumber))
                 .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.Guest.PhoneNumber))
-                .ForMember(dest => dest.ReservationId, options => options.MapFrom(src => src.ReservationId))
                 .ForMember(dest => dest.CheckInDate, options => options.MapFrom(src => src.Reservation.CheckInDate))
                 .ForMember(dest => dest.CheckOutDate, options => options.MapFrom(src => src.Reservation.CheckOutDate))
                 .ReverseMap();
             CreateMap<GuestReservationForCreatingDTO, Guest>().ReverseMap();
             CreateMap<GuestReservationForCreatingDTO, Reservation>().ReverseMap();
             CreateMap<GuestReservationForCreatingDTO, GuestReservation>().ReverseMap();
-            CreateMap<GuestReservationForUpdatingDTO, Guest>().ReverseMap();
-            CreateMap<GuestReservationForUpdatingDTO, Reservation>().ReverseMap();
+
             CreateMap<GuestReservation, GuestReservationForUpdatingDTO>()
-                .ForMember(dest => dest.Id, options => options.MapFrom(src => src.Id))
-                .ForMember(dest => dest.GuestId, options => options.MapFrom(src => src.GuestId))
                 .ForMember(dest => dest.FirstName, options => options.MapFrom(src => src.Guest.FirstName))
                 .ForMember(dest => dest.LastName, options => options.MapFrom(src => src.Guest.LastName))
                 .ForMember(dest => dest.PersonalNumber, options => options.MapFrom(src => src.Guest.PersonalNumber))
                 .ForMember(dest => dest.PhoneNumber, options => options.MapFrom(src => src.Guest.PhoneNumber))
-                .ForMember(dest => dest.ReservationId, options => options.MapFrom(src => src.ReservationId))
                 .ForMember(dest => dest.CheckInDate, options => options.MapFrom(src => src.Reservation.CheckInDate))
                 .ForMember(dest => dest.CheckOutDate, options => options.MapFrom(src => src.Reservation.CheckOutDate))
                 .ReverseMap();
+            CreateMap<GuestReservationForUpdatingDTO, Guest>()
+                .ForMember(dest => dest.Id, options => options.MapFrom(src => src.GuestId))
+                .ReverseMap();
+            CreateMap<GuestReservationForUpdatingDTO, Reservation>()
+                .ForMember(dest => dest.Id, options => options.MapFrom(src => src.ReservationId))
+                .ReverseMap();
+            
         }
     }
 }

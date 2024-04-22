@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace HotelProject.Repository.MicrosoftDataSQLClient
 {
     public class RoomRepository : IRoomRepository
     {
-        public async Task<List<Room>> GetRooms()
+        /* public async Task<List<Room>> GetRooms()
         {
             List<Room> result = new();
             const string sqlExpression = "sp_GetAllRooms";
@@ -180,6 +181,35 @@ namespace HotelProject.Repository.MicrosoftDataSQLClient
                     await connection.CloseAsync();
                 }
             }
+        } */
+        public Task CreateAsync(Room entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Room entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Room>> GetAllAsync(Expression<Func<Room, bool>> filter, string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Room>> GetAllAsync(string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Room> GetAsync(Expression<Func<Room, bool>> filter, string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Room> Update(Room entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

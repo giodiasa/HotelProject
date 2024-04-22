@@ -1,4 +1,5 @@
-﻿using HotelProject.Models;
+﻿using HotelProject.Data;
+using HotelProject.Models;
 using HotelProject.Repository.Interfaces;
 using HotelProject.Repository.MicrosoftDataSQLClient;
 using Microsoft.AspNetCore.Mvc;
@@ -10,21 +11,23 @@ namespace HotelProject.Web.Controllers
     {
         private readonly IManagerRepository _managerRepository;
         private readonly IHotelRepository _hotelRepository;
-        public ManagersController(IManagerRepository managerRepository, IHotelRepository hotelRepository)
+        private readonly ApplicationDbContext _context;
+        public ManagersController(IManagerRepository managerRepository, IHotelRepository hotelRepository, ApplicationDbContext context)
         {
             _managerRepository = managerRepository;
             _hotelRepository = hotelRepository;
+            _context = context;
         }
         public async Task<IActionResult> Index()
         {
-            var result = await _managerRepository.GetManagers();
-            var hotels = await _hotelRepository.GetHotels();
+            var result = await _managerRepository.GetAllAsync("Hotel");
+            var hotels = await _hotelRepository.GetAllAsync();
             ViewBag.HotelNames = hotels.ToDictionary(h => h.Id, h => h.Name);
             return View(result);
         }
         public async Task<IActionResult> Create()
         {
-            var hotelsWithoutManager = await _hotelRepository.GetHotelsWithoutManager();
+            var hotelsWithoutManager = await _hotelRepository.GetAllAsync(x=> x.Manager == null);
             ViewBag.HotelsWithoutManager = hotelsWithoutManager.Select(h => new SelectListItem
             {
                 Value = h.Id.ToString(),
@@ -38,10 +41,11 @@ namespace HotelProject.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _managerRepository.AddManager(manager);
+                await _managerRepository.CreateAsync(manager);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            var hotelsWithoutManager = await _hotelRepository.GetHotelsWithoutManager();
+            var hotelsWithoutManager = await _hotelRepository.GetAllAsync(x => x.Manager == null);
             ViewBag.HotelsWithoutManager = hotelsWithoutManager.Select(h => new SelectListItem
             {
                 Value = h.Id.ToString(),
@@ -52,9 +56,9 @@ namespace HotelProject.Web.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var hotels = await _hotelRepository.GetHotels();
+            var hotels = await _hotelRepository.GetAllAsync();
             ViewBag.HotelNames = hotels.ToDictionary(h => h.Id, h => h.Name);
-            var result = await _managerRepository.GetSingleManager(id);
+            var result = await _managerRepository.GetAsync(x => x.Id == id);
             return View(result);
         }
 
@@ -62,15 +66,17 @@ namespace HotelProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePOST(int id)
         {
-            await _managerRepository.DeleteManager(id);
+            var result = await _managerRepository.GetAsync(x => x.Id == id, "Hotel");
+            _managerRepository.Delete(result);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Update(int id)
         {
-            var result = await _managerRepository.GetSingleManager(id);
-            var hotelsWithoutManager = await _hotelRepository.GetHotelsWithoutManager();
-            var currentHotel = await _hotelRepository.GetSingleHotel(result.HotelId);
+            var result = await _managerRepository.GetAsync(x => x.Id == id, "Hotel");
+            var hotelsWithoutManager = await _hotelRepository.GetAllAsync(x => x.Manager == null);
+            var currentHotel = await _hotelRepository.GetAsync(x => x.Id == result.HotelId);
             hotelsWithoutManager.Add(currentHotel);
             ViewBag.HotelsWithoutManager = hotelsWithoutManager.Select(h => new SelectListItem
             {
@@ -86,12 +92,13 @@ namespace HotelProject.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _managerRepository.UpdateManager(model);
+                await _managerRepository.Update(model);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            var result = await _managerRepository.GetSingleManager(model.Id);
-            var hotelsWithoutManager = await _hotelRepository.GetHotelsWithoutManager();
-            var currentHotel = await _hotelRepository.GetSingleHotel(result.HotelId);
+            var result = await _managerRepository.GetAsync(x => x.Id == model.Id, "Hotel");
+            var hotelsWithoutManager = await _hotelRepository.GetAllAsync(x => x.Manager == null);
+            var currentHotel = await _hotelRepository.GetAsync(x => x.Id == result.HotelId);
             hotelsWithoutManager.Add(currentHotel);
             ViewBag.HotelsWithoutManager = hotelsWithoutManager.Select(h => new SelectListItem
             {

@@ -22,7 +22,7 @@
                 <tr>
                     <td>@gr.FirstName @gr.LastName</td>
                     <td>@gr.PhoneNumber</td>
-                    <td>@gr.CheckInDate.Date - @gr.CheckOutDate.Date</td>
+                    <td>@gr.CheckInDate - @gr.CheckOutDate</td>
                     <td>
                         <a class="btn btn-danger" asp-controller="Guests" asp-action="Delete" asp-route-id="@gr.Id">წაშლა</a>
                         <a class="btn btn-warning" asp-controller="Guests" asp-action="Update" asp-route-id="@gr.Id">განახლება</a>

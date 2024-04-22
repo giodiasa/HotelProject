@@ -7,13 +7,8 @@ using System.Threading.Tasks;
 
 namespace HotelProject.Repository.Interfaces
 {
-    public interface IHotelRepository
+    public interface IHotelRepository : IRepositoryBase<Hotel>, IFullyUpdatable<Hotel>
     {
-        public Task<List<Hotel>> GetHotels();
-        public Task<Hotel> GetSingleHotel(int id);
-        public Task<List<Hotel>> GetHotelsWithoutManager();
-        public Task AddHotel(Hotel hotel);
-        public Task UpdateHotel(Hotel hotel);
-        public Task DeleteHotel(int id);
+        
     }
 }

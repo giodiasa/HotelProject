@@ -3,12 +3,14 @@ using HotelProject.Models;
 using HotelProject.Repository.Interfaces;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Linq.Expressions;
 
 namespace HotelProject.Repository.MicrosoftDataSQLClient
 {
     public class ManagerRepository : IManagerRepository
     {
-        public async Task<List<Manager>> GetManagers()
+        /* 
+         public async Task<List<Manager>> GetManagers()
         {
             List<Manager> result = new();
             const string sqlExpression = "sp_GetAllManagers";
@@ -170,7 +172,36 @@ namespace HotelProject.Repository.MicrosoftDataSQLClient
                 }
             }
         }
+        */ 
+        public Task CreateAsync(Manager entity)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void Delete(Manager entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Manager>> GetAllAsync(Expression<Func<Manager, bool>> filter, string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Manager>> GetAllAsync(string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Manager> GetAsync(Expression<Func<Manager, bool>> filter, string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Manager> Update(Manager entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

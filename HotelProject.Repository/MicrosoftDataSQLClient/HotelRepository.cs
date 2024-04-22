@@ -8,12 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HotelProject.Repository.Interfaces;
+using System.Linq.Expressions;
 
 namespace HotelProject.Repository.MicrosoftDataSQLClient
 {
     public class HotelRepository : IHotelRepository
     {
-        public async Task<List<Hotel>> GetHotels()
+        /*
+         public async Task<List<Hotel>> GetHotels()
         {
             List<Hotel> result = new();
             const string sqlExpression = "sp_GetAllHotels";
@@ -228,6 +230,36 @@ namespace HotelProject.Repository.MicrosoftDataSQLClient
                     await connection.CloseAsync();
                 }
             }
+        }
+        */
+        public Task CreateAsync(Hotel entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Hotel entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Hotel>> GetAllAsync(Expression<Func<Hotel, bool>> filter, string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Hotel>> GetAllAsync(string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Hotel> GetAsync(Expression<Func<Hotel, bool>> filter, string? includeProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Hotel> Update(Hotel entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }
