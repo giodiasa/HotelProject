@@ -1,10 +1,12 @@
 ﻿using HotelProject.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace HotelProject.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -12,6 +14,7 @@ namespace HotelProject.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Hotel>().HasData(
                 new Hotel() 
                 {
@@ -40,6 +43,11 @@ namespace HotelProject.Data
                     PhysicalAddress = "გამსახურდიას 12",
                     Rating = 7.7
                 }
+                );
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" },
+                new IdentityRole { Name = "Administrator", NormalizedName = "ADMINISTRATOR" }
                 );
 
             modelBuilder.Entity<Manager>().HasData(
@@ -187,6 +195,7 @@ namespace HotelProject.Data
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<GuestReservation> GuestReservations { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public static string ConnectionString { get; } = "Server=LAPTOP-6UBPTAP2;Database=DOITHotel_BCTFO;Trusted_Connection=True;TrustServerCertificate=True";
     }
 }

@@ -2,11 +2,13 @@
 using HotelProject.Models;
 using HotelProject.Repository.Interfaces;
 using HotelProject.Repository.MicrosoftDataSQLClient;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace HotelProject.Web.Controllers
 {
+    [Authorize (Roles ="Administrator")]
     public class HotelsController : Controller
     {
         private readonly IHotelRepository _hotelRepository;
